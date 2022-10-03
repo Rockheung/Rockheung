@@ -1,46 +1,48 @@
 import React from "react";
-import type {
-  NextPage,
-  GetStaticProps,
-  GetStaticPropsResult,
-  InferGetServerSidePropsType,
-} from "next";
+import type { NextPage, InferGetServerSidePropsType } from "next";
 import {
-  Client,
   APIErrorCode,
   isNotionClientError,
   ClientErrorCode,
 } from "@notionhq/client";
 import Head from "next/head";
 import Link from "next/link";
-import _ from "lodash";
-import { NotionPage } from "../notion";
+
+// Singleton
+import NotionClient from "../notion";
 
 export const getStaticProps = async () => {
-  const notion = new Client({
-    auth: process.env.NOTION_TOKEN,
-  });
+  const notion = new NotionClient();
 
   try {
-    const { results: pages } = await notion.databases.query({
-      database_id: process.env.NOTION_BLOG_DATABASE_ID || "",
+    const res = await notion.databases.query({
       filter: {
         property: "published",
         checkbox: {
           equals: true,
         },
       },
+      page_size: 3,
     });
+    console.log("🚀 ~ file: index.tsx ~ line 28 ~ getStaticProps ~ pages", res);
+    console.log(
+      "🚀 ~ file: index.tsx ~ line 28 ~ getStaticProps ~ pages",
+      res.results.map((page) => page)
+    );
 
-    const tags = [];
+    const tags = new Set();
 
     return {
       props: {
-        pages,
+        pages: [],
       },
     };
   } catch (error: unknown) {
     if (isNotionClientError(error)) {
+      console.log(
+        "🚀 ~ file: index.tsx ~ line 40 ~ getStaticProps ~ error",
+        error
+      );
       // error is now strongly typed to NotionClientError
       switch (error.code) {
         case ClientErrorCode.RequestTimeout:
@@ -57,6 +59,10 @@ export const getStaticProps = async () => {
           // you could even take advantage of exhaustiveness checking
           console.log(error.code);
       }
+    } else if (error instanceof Error) {
+      console.warn(error.message);
+    } else {
+      console.log(error);
     }
   }
   return {
