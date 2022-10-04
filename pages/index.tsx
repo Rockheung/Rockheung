@@ -1,82 +1,58 @@
 import React from "react";
 import type { NextPage, InferGetServerSidePropsType } from "next";
-import {
-  APIErrorCode,
-  isNotionClientError,
-  ClientErrorCode,
-} from "@notionhq/client";
 import Head from "next/head";
 import Link from "next/link";
 
 // Singleton
-import NotionClient from "../notion";
+import NotionClient, { isText, PageProperty } from "../notion";
+import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+
+type PagePropertyKey =
+  | "tags"
+  | "tldr"
+  | "highlighted"
+  | "date"
+  | "published"
+  | "category"
+  | "name";
+
+type PageProperties = PageProperty<"tags", "multi_select"> &
+  PageProperty<"tldr", "rich_text"> &
+  PageProperty<"highlighted", "checkbox"> &
+  PageProperty<"date", "date"> &
+  PageProperty<"published", "checkbox"> &
+  PageProperty<"category", "select"> &
+  PageProperty<"name", "title">;
+
+const propertyKeys = [
+  "tags",
+  "tldr",
+  "highlighted",
+  "date",
+  "published",
+  "category",
+  "name",
+];
 
 export const getStaticProps = async () => {
   const notion = new NotionClient();
 
-  try {
-    const res = await notion.databases.query({
-      filter: {
-        property: "published",
-        checkbox: {
-          equals: true,
-        },
-      },
-      page_size: 3,
-    });
-    console.log("🚀 ~ file: index.tsx ~ line 28 ~ getStaticProps ~ pages", res);
-    console.log(
-      "🚀 ~ file: index.tsx ~ line 28 ~ getStaticProps ~ pages",
-      res.results.map((page) => page)
-    );
-
-    const tags = new Set();
-
-    return {
-      props: {
-        pages: [],
-      },
-    };
-  } catch (error: unknown) {
-    if (isNotionClientError(error)) {
-      console.log(
-        "🚀 ~ file: index.tsx ~ line 40 ~ getStaticProps ~ error",
-        error
-      );
-      // error is now strongly typed to NotionClientError
-      switch (error.code) {
-        case ClientErrorCode.RequestTimeout:
-          // ...
-          break;
-        case APIErrorCode.ObjectNotFound:
-          // ...
-          break;
-        case APIErrorCode.Unauthorized:
-          // ...
-          break;
-        // ...
-        default:
-          // you could even take advantage of exhaustiveness checking
-          console.log(error.code);
-      }
-    } else if (error instanceof Error) {
-      console.warn(error.message);
-    } else {
-      console.log(error);
-    }
-  }
+  const posts = await notion.postsHighlighted<{ properties: PageProperties }>();
   return {
-    props: {},
+    props: {
+      posts,
+    },
   };
 };
 
 const PageHome: NextPage<
   InferGetServerSidePropsType<typeof getStaticProps>
-> = ({ pages }) => {
+> = ({ posts }) => {
   const today = React.useMemo(() => {
     const _date = new Date();
     return "Published at " + _date.toLocaleDateString();
   }, []);
+
   return (
     <div>
       <Head>
@@ -92,23 +68,33 @@ const PageHome: NextPage<
       <main>
         <div>
           <ul>
-            {typeof pages !== "undefined" &&
-              (pages as NotionPage[])?.map(({ properties, id }) => {
-                if (typeof properties === "undefined" || !properties.published)
-                  return null;
-                const { name, date, published, tags, tldr } = properties;
-                if (!published.checkbox) return null;
+            {typeof posts !== "undefined" &&
+              posts.map(({ properties, id }) => {
+                const {
+                  tags,
+                  tldr,
+                  highlighted,
+                  date,
+                  published,
+                  category,
+                  name,
+                } = properties;
                 return (
                   <li key={id}>
                     <Link href={"/posts/" + id}>
                       <a>
                         <article id={id}>
-                          <h3>{name.title[0].text.content}</h3>
-                          <p>{date.date.start}</p>
+                          <h3>
+                            {name.title
+                              .filter(isText)
+                              .map(({ text }) => text.content)}
+                          </h3>
+                          <p>{date.date!.start}</p>
                           <p>
-                            {(tldr.rich_text as { text: { content: string } }[])
+                            {tldr.rich_text
+                              .filter(isText)
                               .map(({ text }) => text.content)
-                              .join("")}
+                              .join("\n")}
                           </p>
                         </article>
                       </a>

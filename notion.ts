@@ -1,9 +1,8 @@
-import { Client } from "@notionhq/client";
+import { APIErrorCode, Client, ClientErrorCode, isFullPage, isNotionClientError } from "@notionhq/client";
 import {
-  createDatabase,
-  CreateDatabaseParameters,
   CreateDatabaseResponse,
-  getDatabase, GetDatabaseParameters, GetDatabaseResponse, listDatabases, ListDatabasesParameters, ListDatabasesResponse, queryDatabase, QueryDatabaseParameters, QueryDatabaseResponse, updateDatabase, UpdateDatabaseParameters, UpdateDatabaseResponse,
+  EquationRichTextItemResponse,
+  getDatabase, GetDatabaseParameters, GetDatabaseResponse, listDatabases, ListDatabasesParameters, ListDatabasesResponse, MentionRichTextItemResponse, PageObjectResponse, PartialPageObjectResponse, queryDatabase, QueryDatabaseParameters, QueryDatabaseResponse, RichTextItemResponse, TextRichTextItemResponse, updateDatabase, UpdateDatabaseParameters, UpdateDatabaseResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import {
   ClientOptions, RequestParameters,
@@ -12,9 +11,37 @@ import { pick } from '@notionhq/client/build/src/utils'
 
 type DefaultDatabase<T> = Omit<T,'database_id'>
 
+export type PagePropertyType 
+  = PageObjectResponse["properties"][string]["type"]
+
+export type PageProperty<
+  K extends string,
+  T extends PageObjectResponse["properties"][string]["type"]
+> = {
+  [key in K]: PageObjectResponse["properties"][string] & {
+    type: T;
+  };
+};
+
+export const isText = (
+  response: RichTextItemResponse
+): response is TextRichTextItemResponse =>
+  response.type === "text";
+export const isMention = (
+  response: RichTextItemResponse
+): response is MentionRichTextItemResponse =>
+  response.type === "mention";
+export const isEquation = (
+  response: RichTextItemResponse
+): response is EquationRichTextItemResponse =>
+  response.type === "equation";
+
 class NotionClient extends Client {
   static client: NotionClient;
-  private database: {database_id: string } = { database_id: process.env.NOTION_DATABASE_ID || "" };
+  private database: { database_id: string } = {
+    database_id: process.env.NOTION_DATABASE_ID || "",
+  };
+  private lastFetchTime: number = Date.now();
   constructor(options?: ClientOptions) {
     if (NotionClient.client instanceof NotionClient) {
       return NotionClient.client;
@@ -32,19 +59,55 @@ class NotionClient extends Client {
     NotionClient.client = this;
   }
 
-  public readonly request: <ResponseBody>({
-    method,
-    query,
-    body,
-  }: Omit<RequestParameters, "auth">) => Promise<ResponseBody> = (
-    args
-  ) => {
-    return super.request(args);
+  public request = async <T>(
+    args: Omit<RequestParameters, "auth">
+  ): Promise<T> => {
+    try {
+      this.lastFetchTime = Date.now();
+      return super.request<T>(args);
+    } catch (error) {
+      if (
+        isNotionClientError(error) &&
+        error.code === APIErrorCode.RateLimited
+      ) {
+        return new Promise((resolve) => {
+          setTimeout(
+            () => resolve(super.request<T>(args)),
+            this.lastFetchTime + 500
+          );
+        });
+      }
+      console.warn(error);
+    }
+    return {} as T;
+  };
+
+  public postsHighlighted = async <T = {}>() => {
+    const { results } = await this.databases.query({
+      filter: {
+        and: [
+          {
+            property: "highlighted",
+            checkbox: {
+              equals: true,
+            },
+          },
+          {
+            property: "published",
+            checkbox: {
+              equals: true,
+            },
+          },
+        ],
+      },
+    });
+
+    return results.filter(isFullPage) as (PageObjectResponse & T)[]
   };
 
   readonly databases = {
     list: (): Promise<never> => {
-      throw new Error('Please use `search`')
+      throw new Error("Please use `search`");
     },
     retrieve: (
       args: DefaultDatabase<GetDatabaseParameters>
@@ -56,7 +119,9 @@ class NotionClient extends Client {
         body: pick(args, getDatabase.bodyParams),
       });
     },
-    query: (args: DefaultDatabase<QueryDatabaseParameters>): Promise<QueryDatabaseResponse> => {
+    query: (
+      args: DefaultDatabase<QueryDatabaseParameters>
+    ): Promise<QueryDatabaseResponse> => {
       return this.request<QueryDatabaseResponse>({
         path: queryDatabase.path(this.database),
         method: queryDatabase.method,
@@ -65,10 +130,10 @@ class NotionClient extends Client {
       });
     },
     create: (): Promise<CreateDatabaseResponse> => {
-      throw new Error('Create database now allowed')
+      throw new Error("Create database now allowed");
     },
     update: (): Promise<never> => {
-      throw new Error('Update database now allowed')
+      throw new Error("Update database now allowed");
     },
   };
 }

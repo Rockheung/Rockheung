@@ -5,8 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:ssg": "next build && next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "start:ssg": "serve out"
   },
   "dependencies": {
     "@notionhq/client": "2.2.0",
