@@ -14,14 +14,11 @@ type DefaultDatabase<T> = Omit<T,'database_id'>
 export type PagePropertyType 
   = PageObjectResponse["properties"][string]["type"]
 
-export type PageProperty<
-  K extends string,
-  T extends PageObjectResponse["properties"][string]["type"]
-> = {
-  [key in K]: PageObjectResponse["properties"][string] & {
-    type: T;
-  };
-};
+export type PageProperty<T extends PagePropertyType> = Extract<
+  PageObjectResponse["properties"][string],
+  { type: T }
+>;
+
 
 export const isText = (
   response: RichTextItemResponse
@@ -70,6 +67,7 @@ class NotionClient extends Client {
         isNotionClientError(error) &&
         error.code === APIErrorCode.RateLimited
       ) {
+        console.warn(APIErrorCode.RateLimited, "occurs");
         return new Promise((resolve) => {
           setTimeout(
             () => resolve(super.request<T>(args)),
@@ -82,7 +80,7 @@ class NotionClient extends Client {
     return {} as T;
   };
 
-  public postsHighlighted = async <T = {}>() => {
+  public postsHighlighted = async <T extends { properties: unknown }>() => {
     const { results } = await this.databases.query({
       filter: {
         and: [
@@ -102,7 +100,25 @@ class NotionClient extends Client {
       },
     });
 
-    return results.filter(isFullPage) as (PageObjectResponse & T)[]
+    return results.filter(isFullPage) as (PageObjectResponse & T)[];
+  };
+
+  public postsPublished = async <T extends { properties: unknown }>() => {
+    const { results } = await this.databases.query({
+      filter: {
+        and: [
+          {
+            property: "published",
+            checkbox: {
+              equals: true,
+            },
+          },
+        ],
+      },
+      page_size: 100,
+    });
+
+    return results.filter(isFullPage) as (PageObjectResponse & T)[];
   };
 
   readonly databases = {
