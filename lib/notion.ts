@@ -14,6 +14,7 @@ import {
   GetDatabaseResponse,
   MentionRichTextItemResponse,
   PageObjectResponse,
+  ParagraphBlockObjectResponse,
   queryDatabase,
   QueryDatabaseParameters,
   QueryDatabaseResponse,
@@ -58,7 +59,6 @@ export type BlockObjectWithRichText = Exclude<
   BlockObjectUnionMap<BlockObjectResponse["type"]>,
   never
 >;
-
 
 export const isText = (
   response: RichTextItemResponse

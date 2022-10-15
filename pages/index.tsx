@@ -39,21 +39,19 @@ export const getStaticProps = async () => {
   const notion = new NotionClient();
 
   const posts = await notion.postsHighlighted<{ properties: PageProperties }>();
+  const publishedDate = new Date().toLocaleDateString();
   return {
     props: {
       posts,
+      publishedDate,
     },
   };
 };
 
 const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   posts,
+  publishedDate,
 }) => {
-  const today = React.useMemo(() => {
-    const _date = new Date();
-    return "Published at " + _date.toLocaleDateString();
-  }, []);
-
   return (
     <>
       <Head>
@@ -108,7 +106,7 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </main>
 
       <footer>
-        <p>{today}</p>
+        <p>{publishedDate}</p>
       </footer>
     </>
   );

@@ -2,30 +2,24 @@ import React, { HTMLAttributes } from "react";
 import {
   GetStaticProps,
   NextPage,
-  GetStaticPropsResult,
   GetStaticPaths,
   InferGetStaticPropsType,
 } from "next";
-import NotionClient, { isText, PageProperty } from "../../lib/notion";
+import NotionClient from "../../lib/notion";
 import { PageProperties } from "..";
 import Head from "next/head";
-import {
-  APIErrorCode,
-  isFullBlock,
-  isFullPage,
-  isNotionClientError,
-} from "@notionhq/client";
+import { isFullBlock, isFullPage } from "@notionhq/client";
 import {
   BlockObjectResponse,
-  GetPageResponse,
   PageObjectResponse,
-  PartialBlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import Block from "../../components/Block";
+import RichText from "../../components/RichText";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = new NotionClient();
 
-  const posts = await notion.postsPublished<{ properties: PageProperties }>();
+  const posts = await notion.postsPublic<{ properties: PageProperties }>();
 
   return {
     paths: posts.map((post) => {
@@ -74,78 +68,43 @@ const PagePost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   const title = post.properties.name.title
     .map((text) => text.plain_text)
     .join("\n");
-  const body = contents.map((block) => {
-    switch (block.type) {
-      case "paragraph": {
-        return (
-          <p>
-            {block.paragraph.rich_text.map((text, idx) => {
-              if (text.annotations.code) {
-                return <code key={idx}>{text.plain_text}</code>;
-              }
-              const style: HTMLAttributes<HTMLParagraphElement>["style"] = {
-                fontWeight: text.annotations.bold ? "bold" : undefined,
-                fontStyle: text.annotations.italic ? "italic" : undefined,
-                textDecoration:
-                  [
-                    text.annotations.strikethrough ? "line-through" : undefined,
-                    text.annotations.underline ? "underline" : undefined,
-                  ]
-                    .filter(Boolean)
-                    .join(" ") || undefined,
-                color:
-                  text.annotations.color === "default"
-                    ? undefined
-                    : text.annotations.color,
-              };
-              return Object.values(style).filter(Boolean).length === 0 ? (
-                text.plain_text
-              ) : (
-                <span key={idx} style={style}>
-                  {text.plain_text}
-                </span>
-              );
-            })}
-          </p>
-        );
-      }
-      case "heading_1": {
-        return block.heading_1.rich_text.map((text, idx) => {
-          return <h1 key={idx}>{text.plain_text}</h1>;
-        });
-      }
 
-      case "heading_2": {
-        return block.heading_2.rich_text.map((text, idx) => {
-          return <h2 key={idx}>{text.plain_text}</h2>;
-        });
-      }
+  const PostBody: React.ReactNode[] = [];
 
-      case "heading_3": {
-        return block.heading_3.rich_text.map((text, idx) => {
-          return <h3 key={idx}>{text.plain_text}</h3>;
-        });
+  for (let idx = 0; idx < contents.length; idx += 1) {
+    if (
+      contents[idx].type !== "numbered_list_item" &&
+      typeof contents[idx - 1] !== "undefined" &&
+      contents[idx - 1].type === "numbered_list_item"
+    ) {
+      const list = [];
+      let listCount = 1;
+      while (contents[idx - listCount].type === "numbered_list_item") {
+        list.push(PostBody.pop());
+        listCount += 1;
       }
-      case "bulleted_list_item": {
-        return (
-          <li>
-            {block.bulleted_list_item.rich_text.map((text, idx) => {
-              return <span key={idx}>{text.plain_text}</span>;
-            })}
-          </li>
-        );
+      PostBody.push(React.createElement("ol", { key: idx }, ...list.reverse()));
+    } else if (
+      contents[idx].type !== "bulleted_list_item" &&
+      typeof contents[idx - 1] !== "undefined" &&
+      contents[idx - 1].type === "bulleted_list_item"
+    ) {
+      const list = [];
+      let listCount = 1;
+      while (contents[idx - listCount].type === "bulleted_list_item") {
+        list.push(PostBody.pop());
+        listCount += 1;
       }
-      case "code": {
-        return block.code.rich_text.map((text, idx) => {
-          return (
-            <pre key={idx}>
-              <code>{text.plain_text}</code>
-            </pre>
-          );
-        });
-      }
+      PostBody.push(React.createElement("ul", { key: idx }, ...list.reverse()));
     }
-  });
+    PostBody.push(
+      React.createElement(Block, {
+        key: contents[idx].id,
+        block: contents[idx],
+      })
+    );
+  }
+
   return (
     <>
       <Head>
@@ -153,12 +112,20 @@ const PagePost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       </Head>
 
       <header>
-        <h1>{title}</h1>
+        <h1>
+          {post.properties.name.title.map((text, idx) => (
+            <RichText key={idx} textItem={text} />
+          ))}
+        </h1>
       </header>
 
       <main>
-        <div>{body}</div>
+        <div>{PostBody}</div>
       </main>
+
+      <footer>
+        <a href={"/"}>{"홈으로"}</a>
+      </footer>
     </>
   );
 };
