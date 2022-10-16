@@ -109,8 +109,8 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
             {},
             React.createElement("input", {
               type: "checkbox",
-              value: block.to_do.checked,
-              disabled: true,
+              checked: block.to_do.checked,
+              readOnly: true,
             }),
             Child
           );
