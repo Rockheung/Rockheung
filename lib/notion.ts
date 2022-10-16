@@ -71,14 +71,14 @@ export const isEquation = (
 ): response is EquationRichTextItemResponse => response.type === "equation";
 
 class NotionClient extends Client {
-  static client: NotionClient;
+  static instance: NotionClient;
   private database: { database_id: string } = {
     database_id: process.env.NOTION_DATABASE_ID || "",
   };
   private lastFetchTime: number = Date.now();
-  constructor(options?: ClientOptions) {
-    if (NotionClient.client instanceof NotionClient) {
-      return NotionClient.client;
+  private constructor(options?: ClientOptions) {
+    if (NotionClient.instance instanceof NotionClient) {
+      return NotionClient.instance;
     }
     if (
       typeof process.env.NOTION_TOKEN === "undefined" ||
@@ -91,6 +91,13 @@ class NotionClient extends Client {
       auth: process.env.NOTION_TOKEN,
     });
     NotionClient.client = this;
+  }
+
+  static getInstance(options?: ClientOptions): NotionClient {
+    if (!NotionClient.instance) {
+      NotionClient.instance = new NotionClient(options)
+    }
+    return NotionClient.instance
   }
 
   public request = async <T>(

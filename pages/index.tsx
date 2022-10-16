@@ -36,7 +36,7 @@ const propertyKeys = [
 ];
 
 export const getStaticProps = async () => {
-  const notion = new NotionClient();
+  const notion = NotionClient.getInstance();
 
   const posts = await notion.postsHighlighted<{ properties: PageProperties }>();
   const publishedDate = new Date().toLocaleDateString();

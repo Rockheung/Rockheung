@@ -42,6 +42,8 @@ const hasRichText = (
   return block.type in ElementTypeWithRichText;
 };
 
+const hasChildren = (block: BlockObjectResponse) => block.has_children;
+
 const getRichText = (block: BlockObjectResponse) => {
   switch (block.type) {
     case "paragraph": {
@@ -74,9 +76,6 @@ const getRichText = (block: BlockObjectResponse) => {
     case "toggle": {
       return block[block.type].rich_text;
     }
-    case "template": {
-      return block[block.type].rich_text;
-    }
     case "callout": {
       return block[block.type].rich_text;
     }
@@ -96,6 +95,10 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
         </p>
       </div>
     );
+  }
+
+  let Children = [];
+  if (hasChildren(block)) {
   }
 
   const tagName = ElementTypeWithRichText[block.type];

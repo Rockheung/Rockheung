@@ -11,6 +11,16 @@ const RichText = ({ textItem }: Props) => {
   const { bold, italic, strikethrough, underline, color, code } =
     textItem.annotations;
 
+  /**
+   * bold: <strong>
+   * italic: <i>
+   * strikethrough: <s>
+   * underline: <u>
+   * color: <span>
+   * code: <code>
+   * link: <a>
+   */
+
   let classNames = [];
   if (bold) classNames.push(styles.bold);
   if (italic) classNames.push(styles.italic);

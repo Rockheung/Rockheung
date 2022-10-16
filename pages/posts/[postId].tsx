@@ -17,7 +17,7 @@ import Block from "../../components/Block";
 import RichText from "../../components/RichText";
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const notion = new NotionClient();
+  const notion = NotionClient.getInstance();
 
   const posts = await notion.postsPublic<{ properties: PageProperties }>();
 
@@ -40,7 +40,7 @@ export const getStaticProps: GetStaticProps<
 > = async ({ params }) => {
   if (typeof params?.postId === "undefined") return { notFound: true };
 
-  const notion = new NotionClient();
+  const notion = NotionClient.getInstance();
 
   const post = await notion.pages.retrieve({ page_id: params.postId });
 
