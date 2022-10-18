@@ -5,6 +5,7 @@ import Link from "next/link";
 
 // Singleton
 import NotionClient, { isText, PageProperty } from "../lib/notion";
+import Header from "../components/Header";
 
 type PagePropertyKey =
   | "tags"
@@ -60,47 +61,36 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header>
-        <h1>{"/var/log"}</h1>
-      </header>
+      <Header />
 
       <main>
-        <div>
-          {typeof posts !== "undefined" &&
-            posts.map(({ properties, id }) => {
-              const {
-                tags,
-                tldr,
-                highlighted,
-                date,
-                published,
-                category,
-                name,
-              } = properties;
-              return (
-                <article key={id}>
-                  <Link href={"/posts/" + id}>
-                    <a>
-                      <article id={id}>
-                        <h3>
-                          {name.title
-                            .filter(isText)
-                            .map(({ text }) => text.content)}
-                        </h3>
-                        <p>{date.date!.start}</p>
-                        <p>
-                          {tldr.rich_text
-                            .filter(isText)
-                            .map(({ text }) => text.content)
-                            .join("\n")}
-                        </p>
-                      </article>
-                    </a>
-                  </Link>
-                </article>
-              );
-            })}
-        </div>
+        {typeof posts !== "undefined" &&
+          posts.map(({ properties, id }) => {
+            const { tags, tldr, highlighted, date, published, category, name } =
+              properties;
+            return (
+              <article key={id}>
+                <Link href={"/posts/" + id}>
+                  <a>
+                    <article id={id}>
+                      <h3>
+                        {name.title
+                          .filter(isText)
+                          .map(({ text }) => text.content)}
+                      </h3>
+                      <p>{date.date!.start}</p>
+                      <p>
+                        {tldr.rich_text
+                          .filter(isText)
+                          .map(({ text }) => text.content)
+                          .join("\n")}
+                      </p>
+                    </article>
+                  </a>
+                </Link>
+              </article>
+            );
+          })}
       </main>
 
       <footer>
