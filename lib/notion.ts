@@ -77,9 +77,6 @@ class NotionClient extends Client {
   };
   private lastFetchTime: number = Date.now();
   private constructor(options?: ClientOptions) {
-    if (NotionClient.instance instanceof NotionClient) {
-      return NotionClient.instance;
-    }
     if (
       typeof process.env.NOTION_TOKEN === "undefined" ||
       typeof process.env.NOTION_DATABASE_ID === "undefined"
@@ -90,7 +87,6 @@ class NotionClient extends Client {
       ...options,
       auth: process.env.NOTION_TOKEN,
     });
-    NotionClient.client = this;
   }
 
   static getInstance(options?: ClientOptions): NotionClient {

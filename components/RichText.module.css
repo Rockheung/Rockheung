@@ -1,4 +1,4 @@
-
+/* 
 .bold {
     font-weight: bold;
 }
@@ -23,7 +23,7 @@
 
 .code {
     font-family: monospace;
-}
+} */
 
 .default {
     color: var(--color-default);

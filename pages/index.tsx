@@ -66,42 +66,40 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
       <main>
         <div>
-          <ul>
-            {typeof posts !== "undefined" &&
-              posts.map(({ properties, id }) => {
-                const {
-                  tags,
-                  tldr,
-                  highlighted,
-                  date,
-                  published,
-                  category,
-                  name,
-                } = properties;
-                return (
-                  <li key={id}>
-                    <Link href={"/posts/" + id}>
-                      <a>
-                        <article id={id}>
-                          <h3>
-                            {name.title
-                              .filter(isText)
-                              .map(({ text }) => text.content)}
-                          </h3>
-                          <p>{date.date!.start}</p>
-                          <p>
-                            {tldr.rich_text
-                              .filter(isText)
-                              .map(({ text }) => text.content)
-                              .join("\n")}
-                          </p>
-                        </article>
-                      </a>
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
+          {typeof posts !== "undefined" &&
+            posts.map(({ properties, id }) => {
+              const {
+                tags,
+                tldr,
+                highlighted,
+                date,
+                published,
+                category,
+                name,
+              } = properties;
+              return (
+                <article key={id}>
+                  <Link href={"/posts/" + id}>
+                    <a>
+                      <article id={id}>
+                        <h3>
+                          {name.title
+                            .filter(isText)
+                            .map(({ text }) => text.content)}
+                        </h3>
+                        <p>{date.date!.start}</p>
+                        <p>
+                          {tldr.rich_text
+                            .filter(isText)
+                            .map(({ text }) => text.content)
+                            .join("\n")}
+                        </p>
+                      </article>
+                    </a>
+                  </Link>
+                </article>
+              );
+            })}
         </div>
       </main>
 

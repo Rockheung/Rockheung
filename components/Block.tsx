@@ -27,9 +27,9 @@ const ElementTypeWithRichText: Record<
   code: ["pre", "code"],
   quote: "blockquote",
   to_do: ["div", "label"],
-  toggle: "div",
-  template: "div",
-  callout: "div",
+  toggle: [],
+  template: [],
+  callout: "aside",
 };
 
 type Props = {
@@ -95,10 +95,6 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
         </p>
       </div>
     );
-  }
-
-  let Children = [];
-  if (hasChildren(block)) {
   }
 
   const tagName = ElementTypeWithRichText[block.type];

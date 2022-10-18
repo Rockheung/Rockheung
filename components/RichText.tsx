@@ -10,45 +10,35 @@ const RichText = ({ textItem }: Props) => {
   if (!isText(textItem)) return <>{textItem.plain_text}</>;
   const { bold, italic, strikethrough, underline, color, code } =
     textItem.annotations;
+  const { link, content } = textItem.text;
 
   /**
+   * color: <span>
    * bold: <strong>
    * italic: <i>
    * strikethrough: <s>
    * underline: <u>
-   * color: <span>
    * code: <code>
    * link: <a>
    */
 
-  let classNames = [];
-  if (bold) classNames.push(styles.bold);
-  if (italic) classNames.push(styles.italic);
-  if (strikethrough) classNames.push(styles.strikethrough);
-  if (underline) classNames.push(styles.underline);
-  if (code) classNames.push(styles.code);
-  if (color !== "default") classNames.push(styles[color]);
-  if (textItem.text.link) classNames.push(styles.link);
+  let WrappedChild: React.ReactNode = <>{content}</>;
 
-  if (classNames.length === 0) return <>{textItem.text.content}</>;
+  if (color !== "default")
+    WrappedChild = <span className={styles[color]}>{WrappedChild}</span>;
 
-  if (code) {
-    return (
-      <code className={classNames.join(" ")}>{textItem.text.content}</code>
-    );
-  } else if (textItem.text.link) {
-    return (
-      <a
-        className={classNames.join(" ")}
-        href={textItem.text.link.url}
-        target={"_blank"}
-        rel={"noreferrer"}
-      >
-        {textItem.text.content}
+  if (bold) WrappedChild = <strong>{WrappedChild}</strong>;
+  if (italic) WrappedChild = <i>{WrappedChild}</i>;
+  if (strikethrough) <s>{WrappedChild}</s>;
+  if (underline) <u>{WrappedChild}</u>;
+  if (code) WrappedChild = <code>{WrappedChild}</code>;
+  if (link)
+    WrappedChild = (
+      <a href={link.url} target={"_blank"} rel={"noreferrer"}>
+        {WrappedChild}
       </a>
     );
-  }
-  return <span className={classNames.join(" ")}>{textItem.text.content}</span>;
+  return WrappedChild;
 };
 
 export default RichText;
