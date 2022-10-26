@@ -12,7 +12,7 @@ const ElementTypeWithRichText: Record<
   BlockObjectWithRichText["type"],
   keyof JSX.IntrinsicElements | (keyof JSX.IntrinsicElements)[]
 > = {
-  paragraph: ["div"],
+  paragraph: ["p"],
   heading_1: "h1",
   heading_2: "h2",
   heading_3: "h3",
