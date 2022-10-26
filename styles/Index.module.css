@@ -1,0 +1,28 @@
+.Main {
+  width: 100%;
+  margin: 96px 20px;
+  padding: 24px;
+  border: 2px solid var(--color-notion-default);
+  font-size: 16px;
+}
+
+@media screen and (max-width: 1920px) {
+  .Main {
+    max-width: 1200px;
+  }
+}
+
+@media screen and (max-width: 1199px) {
+  .Main {
+    max-width: calc(768px - 20px * 2);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .Main {
+    max-width: unset;
+    width: calc(100% - 20px * 2);
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+}
