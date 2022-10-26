@@ -1,13 +1,14 @@
 import Link from "next/link";
 import React from "react";
 import styles from "./Header.module.css";
+import Logo from "./Logo";
 
 const Header = () => {
   return (
     <header className={styles.Container}>
       <Link href={"/"}>
         <a className={styles.Title}>
-          <div>{"/dev/log"}</div>
+          <Logo title={"/var/log"} />
         </a>
       </Link>
       <Link href={"/posts"}>
