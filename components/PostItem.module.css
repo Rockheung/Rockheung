@@ -1,0 +1,15 @@
+.Post {
+  border: 2px var(--color-notion-default) solid;
+  height: 120px;
+  display: flex;
+  padding: 8px;
+  margin: 8px 8px 36px;
+}
+
+.Post:last-of-type {
+  margin-bottom: 8px;
+}
+
+.Post:hover {
+  transform: translate(-4px, -4px);
+}

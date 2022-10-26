@@ -15,7 +15,7 @@ const Header = () => {
       <nav className={styles.Nav}>
         <Link href={"/posts"}>
           <a className={styles.Link}>
-            <div>{"포스트"}</div>
+            <div>{"Posts"}</div>
           </a>
         </Link>
         <Link href={"/about"}>
