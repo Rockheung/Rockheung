@@ -3,16 +3,6 @@ import Link from "next/link";
 import { PageProperty, isText } from "../lib/notion";
 import styles from "./PostItem.module.css";
 
-export type PageProperties = {
-  tags: PageProperty<"multi_select">;
-  tldr: PageProperty<"rich_text">;
-  highlighted: PageProperty<"checkbox">;
-  date: PageProperty<"date">;
-  published: PageProperty<"checkbox">;
-  category: PageProperty<"select">;
-  name: PageProperty<"title">;
-};
-
 type Props = {
   id: string;
   properties: PageProperties;
@@ -23,8 +13,8 @@ const PostItem = ({ id, properties }: Props) => {
   return (
     <Link href={"/posts/" + id}>
       <a>
-        <article className={styles.Post}>
-          <article id={id}>
+        <div className={styles.Post_wrapper}>
+          <article id={id} className={styles.Post}>
             <h3>{name.title.filter(isText).map(({ text }) => text.content)}</h3>
             <p>{date.date!.start}</p>
             <p>
@@ -34,7 +24,7 @@ const PostItem = ({ id, properties }: Props) => {
                 .join("\n")}
             </p>
           </article>
-        </article>
+        </div>
       </a>
     </Link>
   );

@@ -11,25 +11,6 @@ import commonsConfig from "../commons.config";
 import styles from "../styles/Index.module.css";
 import PostItem from "../components/PostItem";
 
-type PagePropertyKey =
-  | "tags"
-  | "tldr"
-  | "highlighted"
-  | "date"
-  | "published"
-  | "category"
-  | "name";
-
-const propertyKeys = [
-  "tags",
-  "tldr",
-  "highlighted",
-  "date",
-  "published",
-  "category",
-  "name",
-];
-
 export const getStaticProps = async () => {
   const notion = NotionClient.getInstance();
 

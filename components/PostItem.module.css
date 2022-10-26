@@ -1,15 +1,22 @@
 .Post {
   border: 2px var(--color-notion-default) solid;
+  background-color: var(--color-notion-default-bg);
   height: 120px;
-  display: flex;
+  width: 100%;
+  z-index: 10;
   padding: 8px;
-  margin: 8px 8px 36px;
+  overflow:visible;
 }
 
-.Post:last-of-type {
-  margin-bottom: 8px;
+.Post_wrapper {
+  margin: 16px;
 }
 
-.Post:hover {
+
+.Post_wrapper:hover {
+  background-color: var(--color-notion-default);
+}
+
+.Post_wrapper:hover .Post {
   transform: translate(-4px, -4px);
 }
