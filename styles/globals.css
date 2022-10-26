@@ -1,3 +1,4 @@
+
 :root {
   --color-default: rgba(55, 53, 47, 1);
   --color-gray: rgba(120, 119, 116, 1);
@@ -20,4 +21,9 @@
   --color-purple-bg: rgba(244, 240, 247, 0.8);
   --color-pink-bg: rgba(249, 238, 243, 0.8);
   --color-red-bg: rgba(253, 235, 236, 1);
+}
+
+body {
+  font-family: "Spoqa Han Sans Neo", sans-serif, "Apple Color Emoji",
+  "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
 }
