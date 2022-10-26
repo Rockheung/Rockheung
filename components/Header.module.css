@@ -1,15 +1,26 @@
-.Container {
+.Header {
   display: flex;
-  flex-direction: row;
   align-items: center;
-  height: 60px;
+  height: 104px;
+  border-bottom: 2px black solid;
+}
+
+.Nav {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
 }
 
 .Link {
-  font-size:  16px;
-  font-weight: 500;
+  font-size:  18px;
+  font-weight: 400;
   padding: 12px;
   color: var(--color-default)
+}
+
+.Link:hover {
+  font-weight: 700;
 }
 
 .Link:last-of-type {
@@ -17,13 +28,9 @@
 }
 
 .Title {
-  font-size: 26px;
+  font-size: 48px;
   padding: 16px;
   font-weight: 700;
   margin-right: 50px;
-}
-
-.Title:hover {
-  text-decoration: none;
 }
 
