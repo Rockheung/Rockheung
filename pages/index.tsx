@@ -7,7 +7,7 @@ import Link from "next/link";
 import NotionClient, { isText, PageProperty } from "../lib/notion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Icon from "../components/Icon";
+import commonsConfig from "../commons.config";
 
 type PagePropertyKey =
   | "tags"
@@ -58,7 +58,7 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <>
       <Head>
-        <title>/var/log</title>
+        <title>{commonsConfig.blogName}</title>
       </Head>
 
       <Header />

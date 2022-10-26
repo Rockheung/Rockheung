@@ -2,13 +2,14 @@ import Link from "next/link";
 import React from "react";
 import styles from "./Header.module.css";
 import Logo from "./Logo";
+import commonsConfig from "../commons.config";
 
 const Header = () => {
   return (
     <header className={styles.Container}>
       <Link href={"/"}>
         <a className={styles.Title}>
-          <Logo title={"/var/log"} />
+          <Logo title={commonsConfig.blogName} />
         </a>
       </Link>
       <Link href={"/posts"}>
