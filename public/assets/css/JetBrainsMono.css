@@ -1,0 +1,36 @@
+/**
+100: ExtraLight
+200: Light
+300: SemiLight
+400: Regular
+500: Medium
+700: Bold
+800: ExtraBold
+*/
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-weight: 800;
+  src: local('JetBrainsMono-ExtraBold'),
+  url('/assets/font/JetBrainsMono/woff2/JetBrainsMono-ExtraBold.woff2') format('woff2'),
+  url('/assets/font/JetBrainsMono/woff/JetBrainsMono-ExtraBold.woff') format('woff'),
+  url('/assets/font/JetBrainsMono/ttf/JetBrainsMono-ExtraBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-weight: 400;
+  src: local('JetBrainsMono-Regular'),
+  url('/assets/font/JetBrainsMono/woff2/JetBrainsMono-Regular.woff2') format('woff2'),
+  url('/assets/font/JetBrainsMono/woff/JetBrainsMono-Regular.woff') format('woff'),
+  url('/assets/font/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'JetBrainsMono';
+  font-weight: 300;
+  src: local('JetBrainsMono-SemiLight'),
+  url('/assets/font/JetBrainsMono/woff2/JetBrainsMono-SemiLight.woff2') format('woff2'),
+  url('/assets/font/JetBrainsMono/woff/JetBrainsMono-SemiLight.woff') format('woff'),
+  url('/assets/font/JetBrainsMono/ttf/JetBrainsMono-SemiLight.ttf') format('truetype');
+}
