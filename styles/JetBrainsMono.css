@@ -10,11 +10,11 @@
 
 @font-face {
   font-family: 'JetBrainsMono';
-  font-weight: 800;
-  src: local('JetBrainsMono-ExtraBold'),
-  url('/assets/font/JetBrainsMono/woff2/JetBrainsMono-ExtraBold.woff2') format('woff2'),
-  url('/assets/font/JetBrainsMono/woff/JetBrainsMono-ExtraBold.woff') format('woff'),
-  url('/assets/font/JetBrainsMono/ttf/JetBrainsMono-ExtraBold.ttf') format('truetype');
+  font-weight: 700;
+  src: local('JetBrainsMono-Bold'),
+  url('/assets/font/JetBrainsMono/woff2/JetBrainsMono-Bold.woff2') format('woff2'),
+  url('/assets/font/JetBrainsMono/woff/JetBrainsMono-Bold.woff') format('woff'),
+  url('/assets/font/JetBrainsMono/ttf/JetBrainsMono-Bold.ttf') format('truetype');
 }
 
 @font-face {

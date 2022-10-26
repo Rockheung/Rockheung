@@ -64,33 +64,84 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
       <Header />
 
       <main>
-        {typeof posts !== "undefined" &&
-          posts.map(({ properties, id }) => {
-            const { tags, tldr, highlighted, date, published, category, name } =
-              properties;
-            return (
-              <article key={id}>
-                <Link href={"/posts/" + id}>
-                  <a>
-                    <article id={id}>
-                      <h3>
-                        {name.title
-                          .filter(isText)
-                          .map(({ text }) => text.content)}
-                      </h3>
-                      <p>{date.date!.start}</p>
-                      <p>
-                        {tldr.rich_text
-                          .filter(isText)
-                          .map(({ text }) => text.content)
-                          .join("\n")}
-                      </p>
-                    </article>
-                  </a>
-                </Link>
-              </article>
-            );
-          })}
+        <section>
+          <header>
+            <h2>{"하이라이트"}</h2>
+          </header>
+          {typeof posts !== "undefined" &&
+            posts.map(({ properties, id }) => {
+              const {
+                tags,
+                tldr,
+                highlighted,
+                date,
+                published,
+                category,
+                name,
+              } = properties;
+              return (
+                <article key={id}>
+                  <Link href={"/posts/" + id}>
+                    <a>
+                      <article id={id}>
+                        <h3>
+                          {name.title
+                            .filter(isText)
+                            .map(({ text }) => text.content)}
+                        </h3>
+                        <p>{date.date!.start}</p>
+                        <p>
+                          {tldr.rich_text
+                            .filter(isText)
+                            .map(({ text }) => text.content)
+                            .join("\n")}
+                        </p>
+                      </article>
+                    </a>
+                  </Link>
+                </article>
+              );
+            })}
+        </section>
+        <section>
+          <header>
+            <h2>{"최근 글"}</h2>
+          </header>
+          {typeof posts !== "undefined" &&
+            posts.map(({ properties, id }) => {
+              const {
+                tags,
+                tldr,
+                highlighted,
+                date,
+                published,
+                category,
+                name,
+              } = properties;
+              return (
+                <article key={id}>
+                  <Link href={"/posts/" + id}>
+                    <a>
+                      <article id={id}>
+                        <h3>
+                          {name.title
+                            .filter(isText)
+                            .map(({ text }) => text.content)}
+                        </h3>
+                        <p>{date.date!.start}</p>
+                        <p>
+                          {tldr.rich_text
+                            .filter(isText)
+                            .map(({ text }) => text.content)
+                            .join("\n")}
+                        </p>
+                      </article>
+                    </a>
+                  </Link>
+                </article>
+              );
+            })}
+        </section>
       </main>
 
       <Footer publishedDate={publishedDate} />

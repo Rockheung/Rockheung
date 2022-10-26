@@ -1,0 +1,48 @@
+@font-face {
+  font-family: "JetBrainsMono";
+  font-weight: 700;
+  src: local("JetBrainsMono-Bold"),
+    url("/assets/font/JetBrainsMono/woff2/JetBrainsMono-Bold.woff2")
+      format("woff2"),
+    url("/assets/font/JetBrainsMono/woff/JetBrainsMono-Bold.woff")
+      format("woff"),
+    url("/assets/font/JetBrainsMono/ttf/JetBrainsMono-Bold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "JetBrainsMono";
+  font-weight: 400;
+  src: local("JetBrainsMono-Regular"),
+    url("/assets/font/JetBrainsMono/woff2/JetBrainsMono-Regular.woff2")
+      format("woff2"),
+    url("/assets/font/JetBrainsMono/woff/JetBrainsMono-Regular.woff")
+      format("woff"),
+    url("/assets/font/JetBrainsMono/ttf/JetBrainsMono-Regular.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 700;
+  font-display: fallback;
+  src: local("Spoqa Han Sans Bold"),
+    url("/assets/font/SpoqaHanSansNeo/Spoqa Han Sans Neo Bold.woff2")
+      format("woff2"),
+    url("/assets/font/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.woff") format("woff"),
+    url("/assets/font/SpoqaHanSansNeo/SpoqaHanSansNeo-Bold.ttf")
+      format("truetype");
+}
+
+@font-face {
+  font-family: "Spoqa Han Sans Neo";
+  font-weight: 400;
+  font-display: fallback;
+  src: local("Spoqa Han Sans Regular"),
+    url("/assets/font/SpoqaHanSansNeo/Spoqa Han Sans Neo Regular.woff2")
+      format("woff2"),
+    url("/assets/font/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.woff")
+      format("woff"),
+    url("/assets/font/SpoqaHanSansNeo/SpoqaHanSansNeo-Regular.ttf")
+      format("truetype");
+}
