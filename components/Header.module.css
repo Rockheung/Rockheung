@@ -4,6 +4,7 @@
   align-items: center;
   height: 104px;
   border-bottom: 2px solid var(--color-notion-default);
+  border-top: 2px solid var(--color-notion-default);
 }
 
 .Nav_wrapper {
