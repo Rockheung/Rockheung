@@ -34,3 +34,27 @@
   margin-right: 50px;
 }
 
+@media screen and (max-width: 1200px) {
+  .Header {
+    height: 86px;
+  }
+  .Title {
+    font-size: 36px;
+    margin-right: 24px;
+  }
+  .Link {
+    font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .Header {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 45px;
+    height: 82px;
+  }
+  .Title {
+    font-size: 32px;
+  }
+}
