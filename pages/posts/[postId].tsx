@@ -5,8 +5,7 @@ import {
   GetStaticPaths,
   InferGetStaticPropsType,
 } from "next";
-import NotionClient from "../../lib/notion";
-import { PageProperties } from "..";
+import NotionClient, { PageProperties } from "../../lib/notion";
 import Head from "next/head";
 import { isFullBlock, isFullPage } from "@notionhq/client";
 import {

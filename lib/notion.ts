@@ -26,7 +26,6 @@ import {
   RequestParameters,
 } from "@notionhq/client/build/src/Client";
 import { pick } from "@notionhq/client/build/src/utils";
-import { type } from "os";
 
 type DefaultDatabase<T> = Omit<T, "database_id">;
 
@@ -36,6 +35,16 @@ export type PageProperty<T extends PagePropertyType> = Extract<
   PageObjectResponse["properties"][string],
   { type: T }
 >;
+
+export type PageProperties = {
+  tags: PageProperty<"multi_select">;
+  tldr: PageProperty<"rich_text">;
+  highlighted: PageProperty<"checkbox">;
+  date: PageProperty<"date">;
+  published: PageProperty<"checkbox">;
+  category: PageProperty<"select">;
+  name: PageProperty<"title">;
+};
 
 export type BlockObjectBase<T extends BlockObjectResponse["type"]> = Extract<
   BlockObjectResponse,

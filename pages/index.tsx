@@ -4,7 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 // Singleton
-import NotionClient, { isText } from "../lib/notion";
+import NotionClient, { PageProperties } from "../lib/notion";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import commonsConfig from "../commons.config";

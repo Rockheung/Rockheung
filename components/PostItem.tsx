@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { PageProperty, isText } from "../lib/notion";
+import { isText, PageProperties } from "../lib/notion";
 import styles from "./PostItem.module.css";
 
 type Props = {
