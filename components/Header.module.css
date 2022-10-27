@@ -1,8 +1,15 @@
 .Header {
   display: flex;
+  justify-content: center;
   align-items: center;
   height: 104px;
   border-bottom: 2px solid var(--color-notion-default);
+}
+
+.Nav_wrapper {
+  width: 1200px;
+  display: flex;
+  align-items: center;
 }
 
 .Nav {
@@ -38,6 +45,9 @@
   .Header {
     height: 86px;
   }
+  .Nav_wrapper {
+    width: 100%;
+  }
   .Title {
     font-size: 36px;
     margin-right: 24px;
@@ -49,11 +59,17 @@
 
 @media screen and (max-width: 600px) {
   .Header {
-    flex-direction: column;
     align-items: center;
     margin-bottom: 45px;
     height: 82px;
   }
+
+  .Nav_wrapper {
+    flex-direction: column;
+    align-items: center;
+    height: 82px;
+  }
+
   .Title {
     font-size: 32px;
   }
