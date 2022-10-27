@@ -14,6 +14,8 @@ import {
 } from "@notionhq/client/build/src/api-endpoints";
 import Block from "../../components/Block";
 import RichText from "../../components/RichText";
+import commonsConfig from "../../commons.config";
+import Header from "../../components/Header";
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = NotionClient.getInstance();
@@ -107,16 +109,16 @@ const PagePost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{commonsConfig.blogName + " | " + title}</title>
       </Head>
 
-      <header>
-        <h1>
-          {post.properties.name.title.map((text, idx) => (
-            <RichText key={idx} textItem={text} />
-          ))}
-        </h1>
-      </header>
+      <Header />
+
+      <h1>
+        {post.properties.name.title.map((text, idx) => (
+          <RichText key={idx} textItem={text} />
+        ))}
+      </h1>
 
       <main>
         <div>{PostBody}</div>

@@ -73,20 +73,6 @@ const Logo = ({ title }: Props) => {
     };
   }, []);
 
-  // useEffect(() => {
-  //   if (logoRef.current === null || logoRef.current.children.length === 0)
-  //     return;
-
-  //   for (let i = 0; i < logoRef.current.children.length; i += 1) {
-  //     const { r, g, b } = colors[i];
-
-  //     logoRef.current.children[i].setAttribute(
-  //       "style",
-  //       `color:rgba(${r},${g},${b},0.8)`
-  //     );
-  //   }
-  // }, [colors]);
-
   return (
     <div ref={logoRef}>
       {title.split("").map((char, idx) => {
