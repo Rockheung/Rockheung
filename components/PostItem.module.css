@@ -6,10 +6,35 @@
   z-index: 10;
   padding: 8px;
   overflow:visible;
+  /* transition: 0.2s; */
 }
 
 .Post_wrapper {
   margin: 16px;
+  position: relative;
+}
+
+.Bottom_shadow {
+  background-color: var(--color-notion-default);
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 0;
+  transform: skewX(45deg) translateX(-2px);
+  /* transition: 0.2s; */
+}
+
+.Right_shadow {
+  background-color: var(--color-notion-default);
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 100%;
+  transform: skewY(45deg) translateY(-2px);
+  /* transition: 0.2s; */
 }
 
 
@@ -17,6 +42,14 @@
   background-color: var(--color-notion-default);
 }
 
-.Post_wrapper:hover .Post {
+.Post_wrapper:hover > .Post {
   transform: translate(-4px, -4px);
+}
+
+.Post_wrapper:hover > .Bottom_shadow {
+  height: 4px;
+}
+
+.Post_wrapper:hover > .Right_shadow {
+  width: 4px;
 }

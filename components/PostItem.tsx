@@ -24,6 +24,8 @@ const PostItem = ({ id, properties }: Props) => {
                 .join("\n")}
             </p>
           </article>
+          <div className={styles.Bottom_shadow}></div>
+          <div className={styles.Right_shadow}></div>
         </div>
       </a>
     </Link>

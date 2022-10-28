@@ -6,6 +6,10 @@
   line-height: 2em;
 }
 
-.Content > *:not(:first-child):not(pre) {
-  margin: 12px 0;
+.Content h1, .Content h2, .Content h3 {
+  margin: 2em 0 1.2em;
+}
+
+.Content > *:not(:first-child):not(pre):not(h1):not(h2):not(h3) {
+  margin: 1.2em 0;
 }

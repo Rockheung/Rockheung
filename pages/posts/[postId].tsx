@@ -120,17 +120,15 @@ const PagePost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
       <main>
         <div className={stylesIndex.Main}>
-          <section>
-            <article className={styles.Content}>
-              <header className={stylesIndex.Section_header}>
-                <h1 className={styles.Title}>
-                  {post.properties.name.title.map((text, idx) => (
-                    <RichText key={idx} textItem={text} />
-                  ))}
-                </h1>
-              </header>
-              {PostBody}
-            </article>
+          <section className={styles.Content}>
+            <header className={stylesIndex.Section_header}>
+              <h1 className={styles.Title}>
+                {post.properties.name.title.map((text, idx) => (
+                  <RichText key={idx} textItem={text} />
+                ))}
+              </h1>
+            </header>
+            {PostBody}
           </section>
         </div>
       </main>
