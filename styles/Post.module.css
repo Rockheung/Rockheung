@@ -1,0 +1,11 @@
+.Title {
+  font-size: 32px;
+}
+
+.Content {
+  line-height: 2em;
+}
+
+.Content > *:not(:first-child):not(pre) {
+  margin: 12px 0;
+}

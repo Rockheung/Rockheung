@@ -2,9 +2,10 @@ import React from "react";
 import styles from "./Footer.module.css";
 
 type Props = {
-  publishedDate: string;
+  publishedDate?: string;
 };
 const Footer = ({ publishedDate }: Props) => {
+  const _publishedDate = new Date().toLocaleDateString();
   return (
     <footer className={styles.Footer}>
       <div className={styles.Footer_inner}>
@@ -13,9 +14,16 @@ const Footer = ({ publishedDate }: Props) => {
           <span className={styles.writer}>- 베르나르 베르베르, 타나토노트</span>
         </p>
         <p>
-          Contact: <a href="mailto:rockheung@gmail.com">E-mail</a>
+          Contact:{" "}
+          <a
+            href="mailto:rockheung@gmail.com"
+            target={"_blank"}
+            rel={"noreferrer"}
+          >
+            E-mail
+          </a>
         </p>
-        <p>Published: {publishedDate}</p>
+        <p>Published: {publishedDate || _publishedDate}</p>
       </div>
     </footer>
   );

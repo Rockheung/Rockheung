@@ -17,6 +17,10 @@ import RichText from "../../components/RichText";
 import commonsConfig from "../../commons.config";
 import Header from "../../components/Header";
 
+import stylesIndex from "../../styles/Index.module.css";
+import styles from "../../styles/Post.module.css";
+import Footer from "../../components/Footer";
+
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = NotionClient.getInstance();
 
@@ -114,19 +118,24 @@ const PagePost: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
 
       <Header />
 
-      <h1>
-        {post.properties.name.title.map((text, idx) => (
-          <RichText key={idx} textItem={text} />
-        ))}
-      </h1>
-
       <main>
-        <div>{PostBody}</div>
+        <div className={stylesIndex.Main}>
+          <section>
+            <article className={styles.Content}>
+              <header className={stylesIndex.Section_header}>
+                <h1 className={styles.Title}>
+                  {post.properties.name.title.map((text, idx) => (
+                    <RichText key={idx} textItem={text} />
+                  ))}
+                </h1>
+              </header>
+              {PostBody}
+            </article>
+          </section>
+        </div>
       </main>
 
-      <footer>
-        <a href={"/"}>{"홈으로"}</a>
-      </footer>
+      <Footer />
     </>
   );
 };

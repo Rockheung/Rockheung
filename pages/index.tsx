@@ -42,19 +42,21 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
             <header className={styles.Section_header}>
               <h2>{"하이라이트"}</h2>
             </header>
-            {typeof posts !== "undefined" &&
-              posts.map((post) => {
-                return <PostItem key={post.id} {...post} />;
-              })}
+            {typeof posts !== "undefined"
+              ? posts.map((post) => {
+                  return <PostItem key={post.id} {...post} />;
+                })
+              : null}
           </section>
           <section>
             <header className={styles.Section_header}>
               <h2>{"최근 글"}</h2>
             </header>
-            {typeof posts !== "undefined" &&
-              posts.map((post) => {
-                return <PostItem key={post.id} {...post} />;
-              })}
+            {typeof posts !== "undefined"
+              ? posts.map((post) => {
+                  return <PostItem key={post.id} {...post} />;
+                })
+              : null}
           </section>
         </div>
       </main>
