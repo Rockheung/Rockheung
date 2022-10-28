@@ -33,3 +33,8 @@ main {
   flex-direction: column;
   align-items: center;
 }
+
+code {
+  font-family: JetBrainsMono;
+  font-size: 14px;
+}

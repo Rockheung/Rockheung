@@ -6,6 +6,12 @@
   line-height: 2em;
 }
 
+.Content *:not(pre) code {
+  background-color: rgba(115, 125, 140, 0.17);
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
 .Content h1, .Content h2, .Content h3 {
   margin: 2em 0 1.2em;
 }
