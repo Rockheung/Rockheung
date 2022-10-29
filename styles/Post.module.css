@@ -6,7 +6,7 @@
   line-height: 2em;
 }
 
-.Content *:not(pre) code {
+.Content *:not(pre) > code {
   background-color: rgba(115, 125, 140, 0.17);
   padding: 4px 8px;
   border-radius: 4px;

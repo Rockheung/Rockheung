@@ -16,8 +16,9 @@ pre, code {
 }
 
 pre {
-  background-color: darkblue;
-  color: #ffffff;
-  padding: 24px;
-  margin: 0px -24px;
+  /* background-color: darkblue; */
+  /* color: #ffffff; */
+  padding: 24px !important;
+  margin: 0px -24px !important;
+  border-radius: unset !important;
 }

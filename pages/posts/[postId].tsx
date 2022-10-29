@@ -1,4 +1,5 @@
-import React, { HTMLAttributes } from "react";
+import React from "react";
+import dynamic from "next/dynamic";
 import {
   GetStaticProps,
   NextPage,
@@ -12,7 +13,6 @@ import {
   BlockObjectResponse,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import Block from "../../components/Block";
 import RichText from "../../components/RichText";
 import commonsConfig from "../../commons.config";
 import Header from "../../components/Header";
@@ -20,6 +20,8 @@ import Header from "../../components/Header";
 import stylesIndex from "../../styles/Index.module.css";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
+
+const Block = dynamic(() => import("../../components/Block"), { ssr: false });
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = NotionClient.getInstance();

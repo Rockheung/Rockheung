@@ -1,12 +1,8 @@
-import {
-  BlockObjectResponse,
-  Heading1BlockObjectResponse,
-  ParagraphBlockObjectResponse,
-  RichTextItemResponse,
-} from "@notionhq/client/build/src/api-endpoints";
-import React, { PropsWithChildren, PropsWithRef } from "react";
+import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import React from "react";
 import { BlockObjectWithRichText } from "../lib/notion";
 import RichText from "./RichText";
+import Prism from "../prism";
 
 const ElementTypeWithRichText: Record<
   BlockObjectWithRichText["type"],
@@ -98,6 +94,25 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
   }
 
   const tagName = ElementTypeWithRichText[block.type];
+
+  if (block.type === "code") {
+    return React.createElement(
+      "pre",
+      { className: `language-${block.code.language}` },
+      React.createElement("code", {
+        className: `language-${block.code.language}`,
+        dangerouslySetInnerHTML: {
+          __html: Prism.highlight(
+            getRichText(block)
+              .map((text) => text.plain_text)
+              .join(""),
+            Prism.languages.javascript,
+            "javascript"
+          ),
+        },
+      })
+    );
+  }
 
   if (Array.isArray(tagName)) {
     return (tagName as string[]).reduceRight(
