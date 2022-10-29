@@ -106,8 +106,8 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
             getRichText(block)
               .map((text) => text.plain_text)
               .join(""),
-            Prism.languages.javascript,
-            "javascript"
+            Prism.languages[block.code.language],
+            block.code.language
           ),
         },
       })
