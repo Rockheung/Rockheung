@@ -162,12 +162,6 @@ class NotionClient extends Client {
               equals: true,
             },
           },
-          {
-            property: "highlighted",
-            checkbox: {
-              equals: true,
-            },
-          },
         ],
       },
       page_size: 100,

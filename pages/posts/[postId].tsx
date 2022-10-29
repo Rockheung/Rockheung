@@ -21,8 +21,6 @@ import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
 import Block from "../../components/Block";
 
-// const Block = dynamic(() => import("../../components/Block"), { ssr: false });
-
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = NotionClient.getInstance();
 

@@ -1,4 +1,7 @@
-import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import {
+  BlockObjectResponse,
+  CodeBlockObjectResponse,
+} from "@notionhq/client/build/src/api-endpoints";
 import React from "react";
 import { BlockObjectWithRichText } from "../lib/notion";
 import RichText from "./RichText";
@@ -39,6 +42,33 @@ const hasRichText = (
 };
 
 const hasChildren = (block: BlockObjectResponse) => block.has_children;
+
+const getProperGrammar = (
+  notionLanguageType: CodeBlockObjectResponse["code"]["language"]
+) => {
+  switch (notionLanguageType) {
+    case "c++":
+      return "cpp";
+    case "typescript":
+      return "ts";
+    case "javascript":
+      return "js";
+    case "css":
+      return "css";
+    case "sass":
+      return "sass";
+    case "scss":
+      return "scss";
+    case "shell":
+      return "shell";
+    case "plain text":
+      return "plaintext";
+    case "html":
+      return "html";
+    default:
+      return "clike";
+  }
+};
 
 const getRichText = (block: BlockObjectResponse) => {
   switch (block.type) {
@@ -106,7 +136,7 @@ const Block: React.FunctionComponent<Props> = ({ block }) => {
             getRichText(block)
               .map((text) => text.plain_text)
               .join(""),
-            Prism.languages[block.code.language],
+            Prism.languages[getProperGrammar(block.code.language)],
             block.code.language
           ),
         },
