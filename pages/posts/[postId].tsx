@@ -1,5 +1,4 @@
 import React from "react";
-import dynamic from "next/dynamic";
 import {
   GetStaticProps,
   NextPage,
@@ -20,8 +19,9 @@ import Header from "../../components/Header";
 import stylesIndex from "../../styles/Index.module.css";
 import styles from "../../styles/Post.module.css";
 import Footer from "../../components/Footer";
+import Block from "../../components/Block";
 
-const Block = dynamic(() => import("../../components/Block"), { ssr: false });
+// const Block = dynamic(() => import("../../components/Block"), { ssr: false });
 
 export const getStaticPaths: GetStaticPaths = async () => {
   const notion = NotionClient.getInstance();
