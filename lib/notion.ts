@@ -51,16 +51,16 @@ export type BlockObjectBase<T extends BlockObjectResponse["type"]> = Extract<
   { type: T }
 >;
 
-export type BlockObject<P extends BlockObjectResponse> = P extends { type: infer Type }
+export type BlockObject<P extends BlockObjectResponse> = P extends {
+  type: infer Type;
+}
   ? Exclude<BlockObjectResponse, { type: Type }>
   : never;
 
-type BlockObjectWithRichTextMaybe<T extends BlockObjectResponse["type"]> = Extract<
-  BlockObjectBase<T>,
-  { [key in T]: { rich_text: unknown } }
->;
+type BlockObjectWithRichTextMaybe<T extends BlockObjectResponse["type"]> =
+  Extract<BlockObjectBase<T>, { [key in T]: { rich_text: unknown } }>;
 
-type BlockObjectUnionMap<K extends BlockObjectResponse['type']> = {
+type BlockObjectUnionMap<K extends BlockObjectResponse["type"]> = {
   [key in K]: BlockObjectWithRichTextMaybe<key>;
 }[K];
 
@@ -100,9 +100,9 @@ class NotionClient extends Client {
 
   static getInstance(options?: ClientOptions): NotionClient {
     if (!NotionClient.instance) {
-      NotionClient.instance = new NotionClient(options)
+      NotionClient.instance = new NotionClient(options);
     }
-    return NotionClient.instance
+    return NotionClient.instance;
   }
 
   public request = async <T>(
@@ -156,6 +156,12 @@ class NotionClient extends Client {
     const { results } = await this.databases.query({
       filter: {
         or: [
+          {
+            property: "highlighted",
+            checkbox: {
+              equals: false,
+            },
+          },
           {
             property: "published",
             checkbox: {
