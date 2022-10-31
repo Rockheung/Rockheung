@@ -10,13 +10,17 @@ type Props = {
 const PostItem = ({ id, properties }: Props) => {
   const { tags, tldr, highlighted, date, published, category, name } =
     properties;
+  if ([name, date].some((property) => !Boolean(property))) {
+    console.log("Block id:", id, "has no name or date property");
+    return null;
+  }
   return (
     <Link href={"/posts/" + id}>
       <a>
         <div className={styles.Post_wrapper}>
           <article id={id} className={styles.Post}>
             <h3>{name.title.filter(isText).map(({ text }) => text.content)}</h3>
-            <p>{date.date!.start}</p>
+            <p>{date.date?.start || ""}</p>
             <p>
               {tldr.rich_text
                 .filter(isText)
