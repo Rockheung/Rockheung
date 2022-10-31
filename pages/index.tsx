@@ -14,7 +14,7 @@ import PostItem from "../components/PostItem";
 export const getStaticProps = async () => {
   const notion = NotionClient.getInstance();
 
-  const postsHighlighted = await notion.postsHighlighted<{
+  const postsPinned = await notion.postsPinned<{
     properties: PageProperties;
   }>();
   const postsLatest = await notion.postsLatest<{
@@ -23,7 +23,7 @@ export const getStaticProps = async () => {
   const publishedDate = new Date().toLocaleDateString();
   return {
     props: {
-      postsHighlighted,
+      postsPinned,
       postsLatest,
       publishedDate,
     },
@@ -31,7 +31,7 @@ export const getStaticProps = async () => {
 };
 
 const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
-  postsHighlighted,
+  postsPinned,
   postsLatest,
   publishedDate,
 }) => {
@@ -47,17 +47,17 @@ const PageHome: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = ({
         <div className={styles.Main}>
           <section>
             <header className={styles.Section_header}>
-              <h2>{"하이라이트"}</h2>
+              <h2>{"Pinned"}</h2>
             </header>
-            {typeof postsHighlighted !== "undefined"
-              ? postsHighlighted.map((post) => {
+            {typeof postsPinned !== "undefined"
+              ? postsPinned.map((post) => {
                   return <PostItem key={post.id} {...post} />;
                 })
               : null}
           </section>
           <section>
             <header className={styles.Section_header}>
-              <h2>{"최근 글"}</h2>
+              <h2>{"Latest Posts"}</h2>
             </header>
             {typeof postsLatest !== "undefined"
               ? postsLatest.map((post) => {

@@ -8,8 +8,7 @@ type Props = {
   properties: PageProperties;
 };
 const PostItem = ({ id, properties }: Props) => {
-  const { tags, tldr, highlighted, date, published, category, name } =
-    properties;
+  const { tags, tldr, Pinned, date, published, category, name } = properties;
   if ([name, date].some((property) => !Boolean(property))) {
     console.log("Block id:", id, "has no name or date property");
     return null;

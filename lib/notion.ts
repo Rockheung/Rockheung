@@ -39,7 +39,7 @@ export type PageProperty<T extends PagePropertyType> = Extract<
 export type PageProperties = {
   tags: PageProperty<"multi_select">;
   tldr: PageProperty<"rich_text">;
-  highlighted: PageProperty<"checkbox">;
+  Pinned: PageProperty<"checkbox">;
   date: PageProperty<"date">;
   published: PageProperty<"checkbox">;
   category: PageProperty<"select">;
@@ -129,12 +129,12 @@ class NotionClient extends Client {
     return {} as T;
   };
 
-  public postsHighlighted = async <T extends { properties: unknown }>() => {
+  public postsPinned = async <T extends { properties: unknown }>() => {
     const { results } = await this.databases.query({
       filter: {
         and: [
           {
-            property: "highlighted",
+            property: "pinned",
             checkbox: {
               equals: true,
             },
@@ -157,7 +157,7 @@ class NotionClient extends Client {
       filter: {
         or: [
           {
-            property: "highlighted",
+            property: "pinned",
             checkbox: {
               equals: true,
             },
@@ -181,7 +181,7 @@ class NotionClient extends Client {
       filter: {
         and: [
           {
-            property: "highlighted",
+            property: "pinned",
             checkbox: {
               equals: false,
             },
