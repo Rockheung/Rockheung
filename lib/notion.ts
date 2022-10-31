@@ -155,7 +155,7 @@ class NotionClient extends Client {
   public postsPublic = async <T extends { properties: unknown }>() => {
     const { results } = await this.databases.query({
       filter: {
-        or: [
+        and: [
           {
             property: "highlighted",
             checkbox: {
