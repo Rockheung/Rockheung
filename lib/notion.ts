@@ -155,6 +155,30 @@ class NotionClient extends Client {
   public postsPublic = async <T extends { properties: unknown }>() => {
     const { results } = await this.databases.query({
       filter: {
+        or: [
+          {
+            property: "highlighted",
+            checkbox: {
+              equals: true,
+            },
+          },
+          {
+            property: "published",
+            checkbox: {
+              equals: true,
+            },
+          },
+        ],
+      },
+      page_size: 100,
+    });
+
+    return results.filter(isFullPage) as (PageObjectResponse & T)[];
+  };
+
+  public postsLatest = async <T extends { properties: unknown }>() => {
+    const { results } = await this.databases.query({
+      filter: {
         and: [
           {
             property: "highlighted",

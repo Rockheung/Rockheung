@@ -17,7 +17,7 @@ export const getStaticProps = async () => {
   const postsHighlighted = await notion.postsHighlighted<{
     properties: PageProperties;
   }>();
-  const postsLatest = await notion.postsPublic<{
+  const postsLatest = await notion.postsLatest<{
     properties: PageProperties;
   }>();
   const publishedDate = new Date().toLocaleDateString();
