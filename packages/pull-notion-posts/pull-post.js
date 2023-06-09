@@ -12,8 +12,8 @@ const notion = new Client({
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
 (async () => {
-  const mdFile = fs.createWriteStream('test-2.md');
-  const mdblocks = await n2m.pageToMarkdown("0e26eee14f594bd8be1c2009544a6d7e");
+  const mdFile = fs.createWriteStream('test-3.md');
+  const mdblocks = await n2m.pageToMarkdown("fe590bf15fa3463a8fd5cd946342b2a6");
   const mdString = n2m.toMarkdownString(mdblocks);
   mdFile.write(mdString.parent);
   mdFile.end();
