@@ -1,0 +1,8 @@
+{
+  "name": "pull-notion-posts",
+  "packageManager": "yarn@3.6.0",
+  "dependencies": {
+    "@notionhq/client": "^2.2.5",
+    "notion-to-md": "^3.0.1"
+  }
+}
